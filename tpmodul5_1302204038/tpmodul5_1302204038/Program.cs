@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using System.Diagnostics.Contracts;
 
 
 namespace tpmodul5_1302204038
@@ -27,15 +27,25 @@ namespace tpmodul5_1302204038
 
         public SayaTubeVideo(String judul)
         {
+            Contract.Requires(title != null);
+            Contract.Requires(title.Length < 100);
             Random ids = new Random();
-            this.title = title;
+            this.title = judul;
             id = ids.Next(0, 100000);
             this.PlayCount = 0;
         }
 
         public void IncreasePlayCount(int i)
         {
-            PlayCount = PlayCount + i;
+            try
+            {
+                 if (i >= 10000000) throw new Exception("Melebihi limit angka");
+                 PlayCount = PlayCount + i;
+            }
+            catch (Exception e)
+            {
+                 Console.WriteLine(e.Message);
+            }
         }
 
         public void PrintVideoDetails()
